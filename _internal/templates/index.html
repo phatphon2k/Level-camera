@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaterAI Multi Camera</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="theme-dark">
+
+<header class="topbar">
+    <div class="brand">
+        <button id="btnMenu" class="icon-btn" title="Ẩn/hiện menu"><i class="fa-solid fa-bars"></i></button>
+        <div class="brand-mark"><i class="fa-solid fa-droplet"></i></div>
+        <div>
+            <div class="brand-title">WaterAI Vision</div>
+            <div class="brand-subtitle">Multi Camera SCADA Gateway</div>
+        </div>
+    </div>
+
+    <div id="systemMessage" class="message-pill">Đang khởi tạo hệ thống...</div>
+
+    <div class="top-actions">
+        <button id="btnLoginTop" class="role-pill btn-like"><i class="fa-solid fa-right-to-bracket"></i><span>Đăng nhập</span></button>
+        <div id="rolePill" class="role-pill"><i class="fa-solid fa-user-shield"></i><span id="currentRole">Viewer</span></div>
+        <div class="role-pill"><i class="fa-solid fa-user"></i><span id="currentUser">guest</span></div>
+        <button id="btnLogoutTop" class="role-pill btn-like hidden"><i class="fa-solid fa-right-from-bracket"></i><span>Thoát</span></button>
+        <div id="clock" class="clock">--:--:--</div>
+        <button id="btnTheme" class="icon-btn" title="Sáng/tối"><i class="fa-solid fa-moon"></i></button>
+    </div>
+</header>
+
+<div class="app-shell">
+    <aside id="sidebar" class="sidebar">
+        <button class="nav-item active" data-tab="camera"><i class="fa-solid fa-video"></i><span>Camera</span></button>
+        <button class="nav-item" data-tab="dashboard"><i class="fa-solid fa-chart-simple"></i><span>Dashboard</span></button>
+        <button class="nav-item" data-tab="grid"><i class="fa-solid fa-table-cells-large"></i><span>Lưới camera</span></button>
+        <button class="nav-item" data-tab="alarms"><i class="fa-solid fa-triangle-exclamation"></i><span>Alarm</span></button>
+        <button class="nav-item" data-tab="history"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></button>
+        <button class="nav-item" data-tab="opc"><i class="fa-solid fa-network-wired"></i><span>OPC UA</span></button>
+        <button class="nav-item" data-tab="settings"><i class="fa-solid fa-gear"></i><span>Cài đặt</span></button>
+    </aside>
+
+    <main class="workspace">
+        <section id="tab-camera" class="tab-page active">
+            <div class="camera-layout">
+                <div class="camera-header card-lite">
+                    <div>
+                        <div class="section-title"><i class="fa-solid fa-video"></i><span id="selectedCameraTitle">Camera</span></div>
+                        <div id="selectedCameraArea" class="muted">--</div>
+                    </div>
+                    <div class="toolbar">
+                        <button id="btnPin" class="tool-btn"><i class="fa-solid fa-thumbtack"></i><span>Ghim</span></button>
+                        <button id="btnGridMode" class="tool-btn"><i class="fa-solid fa-table-cells-large"></i><span>Lưới</span></button>
+                        <button id="btnOpenSettings" class="tool-btn require-engineer"><i class="fa-solid fa-sliders"></i><span>Cài đặt</span></button>
+                        <button id="btnFullscreen" class="tool-btn"><i class="fa-solid fa-expand"></i></button>
+                    </div>
+                </div>
+
+                <div id="cameraStage" class="camera-stage">
+                    <img id="mainVideo" src="" alt="Camera stream">
+                    <canvas id="roiCanvas"></canvas>
+                    <div id="liveHud" class="live-hud">
+                        <div id="liveLevel">-- %</div>
+                        <span id="liveStatus">NO DATA</span>
+                    </div>
+                    <div id="cameraOfflineOverlay" class="camera-offline hidden">
+                        <i class="fa-solid fa-plug-circle-xmark"></i>
+                        <span>Camera chưa kết nối</span>
+                    </div>
+                </div>
+
+                <div class="camera-bottom-bar card-lite">
+                    <div class="kpi"><span class="dot" id="cameraDot"></span><span id="cameraStateText">Offline</span></div>
+                    <div class="kpi">Mức: <strong id="camLevel">-- %</strong></div>
+                    <div class="kpi">Trạng thái: <strong id="camStatus">--</strong></div>
+                    <div class="kpi">FPS: <strong id="camFps">--</strong></div>
+                    <div class="kpi">Độ phân giải: <strong id="camResolution">--</strong></div>
+                    <div class="kpi">OPC: <strong id="opcMini">--</strong></div>
+                </div>
+
+                <div id="cameraStrip" class="camera-strip"></div>
+            </div>
+        </section>
+
+        <section id="tab-dashboard" class="tab-page">
+            <div class="dashboard-grid dashboard-grid-6">
+                <div class="summary-card primary"><span>Đang hoạt động</span><strong id="sumOnline">0/0</strong></div>
+                <div class="summary-card"><span>Camera lỗi</span><strong id="sumFault">0</strong></div>
+                <div class="summary-card"><span>Camera đã bật</span><strong id="sumEnabled">0</strong></div>
+                <div class="summary-card"><span>Alarm</span><strong id="sumAlarm">0</strong></div>
+                <div class="summary-card"><span>Trung bình mức bể</span><strong id="sumAvgLevel">-- %</strong></div>
+                <div class="summary-card"><span>Camera đang chọn</span><strong id="sumSelected">--</strong></div>
+            </div>
+            <div class="dashboard-content dashboard-content-3">
+                <div class="card analytics-card trend-card-main">
+                    <div class="section-title"><i class="fa-solid fa-chart-line"></i><span>Trend camera đang chọn</span></div>
+                    <div class="trend-toolbar trend-toolbar-advanced">
+                        <button id="btnTrendPause" class="small-btn">Tạm dừng</button>
+                        <button id="btnTrendReset" class="small-btn">Reset</button>
+                        <button id="btnTrendZoomIn" class="small-btn">Zoom +</button>
+                        <button id="btnTrendZoomOut" class="small-btn">Zoom -</button>
+                        <button id="btnTrendResetZoom" class="small-btn">Reset zoom</button>
+                        <button id="btnTrendExportPng" class="small-btn">Export PNG</button>
+                        <button id="btnTrendExportCsv" class="small-btn">Export CSV</button>
+                        <label>Mode
+                            <select id="trendMode">
+                                <option value="live">Live</option>
+                                <option value="history">History</option>
+                                <option value="compare">Compare</option>
+                            </select>
+                        </label>
+                        <label>Window (s)<input id="trendWindow" type="number" value="120" min="10" max="7200"></label>
+                        <label>Y min<input id="trendYMin" type="number" value="0"></label>
+                        <label>Y max<input id="trendYMax" type="number" value="100"></label>
+                        <label class="check-line"><input id="trendAuto" type="checkbox" checked> Auto scroll</label>
+                        <label class="check-line"><input id="trendRule" type="checkbox" checked> Rule</label>
+                        <label class="check-line"><input id="trendShowPoints" type="checkbox"> Points</label>
+                        <button id="btnTrendApply" class="small-btn">Áp dụng</button>
+                    </div>
+                    <div class="trend-canvas-box"><canvas id="trendChart"></canvas></div>
+                    <div id="trendCursor" class="trend-cursor">Trend cố định gốc thời gian. Click trên biểu đồ để xem timestamp và giá trị.</div>
+                </div>
+                <div class="card compare-card donut-panel">
+                    <div class="section-title"><i class="fa-solid fa-chart-pie"></i><span>So sánh tổng hợp các bể</span></div>
+                    <div class="donut-grid">
+                        <div class="donut-card">
+                            <div class="donut-title">Mức bể</div>
+                            <canvas id="levelDonutChart"></canvas>
+                            <div id="levelDonutText" class="donut-caption">--</div>
+                        </div>
+                        <div class="donut-card">
+                            <div class="donut-title">Trạng thái bể</div>
+                            <canvas id="statusDonutChart"></canvas>
+                            <div id="statusDonutText" class="donut-caption">--</div>
+                        </div>
+                        <div class="donut-card">
+                            <div class="donut-title">Hiện trạng thiết bị</div>
+                            <canvas id="deviceDonutChart"></canvas>
+                            <div id="deviceDonutText" class="donut-caption">--</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card tank-card-list">
+                    <div class="section-title"><i class="fa-solid fa-water"></i><span>Trạng thái các bể</span></div>
+                    <div id="tankList" class="tank-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-grid" class="tab-page">
+            <div class="grid-toolbar card-lite">
+                <div class="section-title"><i class="fa-solid fa-table-cells-large"></i><span>Phân lưới camera</span></div>
+                <div class="toolbar">
+                    <button class="grid-btn active" data-grid="4">2×2</button>
+                    <button class="grid-btn" data-grid="9">3×3</button>
+                    <button class="grid-btn" data-grid="20">4×5</button>
+                </div>
+            </div>
+            <div id="cameraGrid" class="camera-grid grid-4"></div>
+        </section>
+
+        <section id="tab-alarms" class="tab-page">
+            <div class="card full-card">
+                <div class="section-title"><i class="fa-solid fa-triangle-exclamation"></i><span>Alarm đang active</span></div>
+                <div id="alarmList" class="alarm-list"></div>
+            </div>
+        </section>
+
+        <section id="tab-history" class="tab-page">
+            <div class="card full-card">
+                <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i><span>Lịch sử camera đang chọn</span></div>
+                <table class="history-table">
+                    <thead><tr><th>Thời gian</th><th>Camera</th><th>Mức</th><th>Trạng thái</th><th>Confidence</th></tr></thead>
+                    <tbody id="historyBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="tab-opc" class="tab-page">
+            <div class="card full-card">
+                <div class="section-title"><i class="fa-solid fa-network-wired"></i><span>OPC UA cho WinCC Unified</span></div>
+                <div class="endpoint-box" id="opcEndpoint">opc.tcp://192.168.110.164:4845/freeopcua/server/</div>
+                <p class="muted">Mỗi camera có object riêng: WaterAI / CAM01...CAM20, gồm WaterLevel, StatusCode, StatusText, CameraOnline, FPS, Confidence.</p>
+                <div id="opcTags" class="opc-tags"></div>
+            </div>
+        </section>
+
+        <section id="tab-settings" class="tab-page">
+            <div class="card full-card settings-page">
+                <div class="section-title"><i class="fa-solid fa-gear"></i><span>Cài đặt nhanh</span></div>
+                <p class="muted">ROI, nguồn camera và tài khoản được chỉnh trong popup để màn hình camera luôn ưu tiên hiển thị hình ảnh.</p>
+                <button id="btnOpenSettings2" class="primary-btn require-engineer">Mở cài đặt camera đang chọn</button>
+
+                <div class="user-admin-panel require-admin">
+                    <div class="section-title"><i class="fa-solid fa-users-gear"></i><span>Quản lý tài khoản</span></div>
+                    <div class="user-form">
+                        <input id="newUser" placeholder="Tên đăng nhập">
+                        <input id="newPass" type="password" placeholder="Mật khẩu">
+                        <select id="newRole">
+                            <option value="viewer">Giám sát</option>
+                            <option value="engineer">Cài đặt</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <button id="btnAddUser" class="primary-btn">Thêm / cập nhật</button>
+                    </div>
+                    <div id="userList" class="user-list"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<footer class="statusbar">
+    <div><span class="dot" id="footerDot"></span><span id="footerSelected">--</span></div>
+    <div>Online: <strong id="footerOnline">0</strong></div>
+    <div>Alarm: <strong id="footerAlarm">0</strong></div>
+    <div>OPC UA: <strong id="footerOpc">--</strong></div>
+    <div>Version: <strong id="footerVersion">--</strong></div>
+</footer>
+
+<div id="settingsModal" class="modal hidden">
+    <div class="modal-panel">
+        <div class="modal-header">
+            <div><h3>Cài đặt camera</h3><p id="modalCamTitle" class="muted">--</p></div>
+            <button id="btnCloseSettings" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-grid">
+                <label>Tên camera<input id="setName"></label>
+                <label>Khu vực<input id="setArea"></label>
+                <label>Nguồn camera<input id="setSource" placeholder="0 hoặc rtsp://..."></label>
+                <label>Bật camera<select id="setEnabled"><option value="true">Bật</option><option value="false">Tắt</option></select></label>
+                <label>Ngưỡng thấp<input id="setLow" type="number"></label>
+                <label>Ngưỡng cao<input id="setHigh" type="number"></label>
+                <label>Overlay ROI trên live<select id="setOverlay"><option value="false">Ẩn</option><option value="true">Hiện</option></select></label>
+                <label>Process FPS<input id="setProcessFps" type="number"></label>
+            </div>
+
+            <div class="roi-editor">
+                <div class="roi-tools">
+                    <strong>ROI</strong>
+                    <button id="btnStartRoi" class="small-btn">Kéo ROI trong popup</button>
+                </div>
+                <div class="roi-inputs">
+                    <input id="roiX1" placeholder="x1" type="number">
+                    <input id="roiY1" placeholder="y1" type="number">
+                    <input id="roiX2" placeholder="x2" type="number">
+                    <input id="roiY2" placeholder="y2" type="number">
+                </div>
+                <div id="roiPreviewWrap" class="roi-preview hidden">
+                    <img id="roiPreviewImg" src="" alt="ROI preview">
+                    <canvas id="roiPreviewCanvas"></canvas>
+                    <div class="roi-help">Kéo chuột trực tiếp trên ảnh để chọn vùng ROI.</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"><button id="btnSaveSettings" class="primary-btn">Lưu cài đặt</button></div>
+    </div>
+</div>
+
+<div id="loginModal" class="modal hidden">
+    <div class="login-panel">
+        <h3><i class="fa-solid fa-lock"></i> Đăng nhập WaterAI</h3>
+        <p class="muted">Admin mặc định: <b>admin</b> / <b>cam@2026</b></p>
+        <input id="loginUser" placeholder="Tên đăng nhập" autocomplete="username">
+        <input id="loginPass" type="password" placeholder="Mật khẩu" autocomplete="current-password">
+        <div id="loginError" class="login-error"></div>
+        <div class="login-actions">
+            <button id="btnLoginCancel" class="small-btn">Xem giám sát</button>
+            <button id="btnLoginSubmit" class="primary-btn">Đăng nhập</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/main.js"></script>
+</body>
+</html>
