@@ -1,6 +1,6 @@
 # WaterAI V6.6 Donut Dashboard Fix
 
-Bản này sửa lỗi donut dashboard bị méo/chồng label. Chart.js donut tắt legend nội bộ, dùng legend HTML riêng để không bị bóp nhỏ trong khung dashboard.
+
 
 Chạy:
 ```powershell
