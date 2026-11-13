@@ -1,0 +1,581 @@
+{
+    "system": {
+        "name": "WaterAI Vision System",
+        "version": "V6.0-20CAM",
+        "language": "vi",
+        "theme": "dark",
+        "default_camera": "CAM01",
+        "max_cameras": 20,
+        "log_interval_sec": 5
+    },
+    "web": {
+        "host": "127.0.0.1",
+        "port": 5530,
+        "threads": 80
+    },
+    "opcua": {
+        "enable": false,
+        "endpoint": "opc.tcp://127.0.0.1:4846/freeopcua/server/",
+        "namespace": "http://automation.waterai.io",
+        "server_name": "WaterAI OPC UA Server"
+    },
+    "database": {
+        "sqlite_enable": true,
+        "sqlite_file": "database/history.db"
+    },
+    "performance": {
+        "mjpeg_fps": 15,
+        "default_process_fps": 24,
+        "min_process_fps": 15,
+        "target_process_fps": 24,
+        "target_camera_fps": 24,
+        "stream_width": 960,
+        "jpeg_quality": 70,
+        "max_video_clients_per_camera": 32,
+        "disabled_sleep_sec": 2,
+        "reconnect_sec": 3
+    },
+    "vision": {
+        "history_len": 8,
+        "max_level_jump": 14.0,
+        "motion_ratio_threshold": 0.18,
+        "motion_mean_threshold": 13.0,
+        "min_accept_confidence": 28.0,
+        "empty_roi_contrast_threshold": 12.0,
+        "empty_roi_edge_mean_threshold": 4.8,
+        "empty_roi_edge_peak_threshold": 9.0,
+        "empty_roi_edge_ratio_threshold": 0.018,
+        "empty_roi_prominence_threshold": 1.65,
+        "hold_max_frames": 48,
+        "use_opencl": true,
+        "use_cuda": false
+    },
+    "auth": {
+        "session_secret": "waterai-session-change-me-2026",
+        "users": [
+            {
+                "username": "admin",
+                "password_hash": "a3d0d1be4661b6af1e4c5dc222b2a0b524ab8491f419f8e33c56ef4833715941",
+                "role": "admin",
+                "enabled": true
+            },
+            {
+                "username": "operater",
+                "enabled": true,
+                "password_hash": "bacdba569572035b565b52799d8dcc9115c75fd030d9bfff8379501cf74ac36d",
+                "role": "engineer"
+            }
+        ]
+    },
+    "chatbot": {
+        "mini_agent_enable": true,
+        "agent_use_llm": true,
+        "llm_enable": true,
+        "fallback_to_rules": true,
+        "ollama_url": "http://127.0.0.1:11434/api/generate",
+        "model": "qwen2.5:7b-instruct",
+        "timeout_sec": 8,
+        "temperature": 0.2,
+        "num_predict": 260,
+        "providers": [
+            {
+                "name": "anthropic-api",
+                "type": "anthropic",
+                "model": "claude-sonnet-5",
+                "api_key_env": "ANTHROPIC_API_KEY",
+                "timeout_sec": 30,
+                "max_tokens": 260,
+                "enabled": true
+            },
+            {
+                "name": "openai-api",
+                "type": "openai",
+                "model": "gpt-4o-mini",
+                "enabled": false,
+                "api_key_env": "OPENAI_API_KEY",
+                "timeout_sec": 30,
+                "max_tokens": 260
+            },
+            {
+                "name": "qwen-local",
+                "type": "ollama",
+                "model": "qwen2.5:7b-instruct",
+                "timeout_sec": 8
+            },
+            {
+                "name": "llama-local",
+                "type": "ollama",
+                "model": "llama3.1:8b",
+                "timeout_sec": 8
+            },
+            {
+                "name": "gemma-local",
+                "type": "ollama",
+                "model": "gemma2:9b",
+                "timeout_sec": 8
+            }
+        ]
+    },
+    "cameras": [
+        {
+            "id": "CAM01",
+            "name": "Bể 01",
+            "area": "Khu vực 01",
+            "enabled": true,
+            "source": "0",
+            "roi": {
+                "x1": 261,
+                "y1": 64,
+                "x2": 341,
+                "y2": 174
+            },
+            "low_threshold": 20,
+            "high_threshold": 80,
+            "show_overlay": true,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM02",
+            "name": "Bể 02",
+            "area": "Khu vực 02",
+            "enabled": true,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM03",
+            "name": "Bể 03",
+            "area": "Khu vực 03",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM04",
+            "name": "Bể 04",
+            "area": "Khu vực 04",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM05",
+            "name": "Bể 05",
+            "area": "Khu vực 05",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM06",
+            "name": "Bể 06",
+            "area": "Khu vực 06",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM07",
+            "name": "Bể 07",
+            "area": "Khu vực 07",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM08",
+            "name": "Bể 08",
+            "area": "Khu vực 08",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM09",
+            "name": "Bể 09",
+            "area": "Khu vực 09",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM10",
+            "name": "Bể 10",
+            "area": "Khu vực 10",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM11",
+            "name": "Bể 11",
+            "area": "Khu vực 11",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM12",
+            "name": "Bể 12",
+            "area": "Khu vực 12",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM13",
+            "name": "Bể 13",
+            "area": "Khu vực 13",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM14",
+            "name": "Bể 14",
+            "area": "Khu vực 14",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM15",
+            "name": "Bể 15",
+            "area": "Khu vực 15",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM16",
+            "name": "Bể 16",
+            "area": "Khu vực 16",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM17",
+            "name": "Bể 17",
+            "area": "Khu vực 17",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM18",
+            "name": "Bể 18",
+            "area": "Khu vực 18",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM19",
+            "name": "Bể 19",
+            "area": "Khu vực 19",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        },
+        {
+            "id": "CAM20",
+            "name": "Bể 20",
+            "area": "Khu vực 20",
+            "enabled": false,
+            "source": "",
+            "roi": {
+                "x1": 100,
+                "y1": 80,
+                "x2": 520,
+                "y2": 420
+            },
+            "low_threshold": 20,
+            "high_threshold": 90,
+            "show_overlay": false,
+            "process_fps": 24,
+            "stream_quality": 78,
+            "stream_fps": 15,
+            "stream_width": 960,
+            "camera_fps": 24,
+            "width": 0,
+            "height": 0
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "engine": "piper-local",
+  "note": "Dat piper.exe vao tts/bin va dat cac file .onnx/.onnx.json theo duong dan model/config ben duoi. App chi dung voice trong project, khong dung voice he dieu hanh.",
+  "voices": [
+    {"id": "vi_male_deep", "language": "vi-VN", "style": "male-deep", "label": "Tieng Viet - Nam tram", "gender": "male", "model": "vi-VN/25hours-single-low.onnx", "config": "vi-VN/25hours-single-low.onnx.json", "length_scale": 1.14},
+    {"id": "vi_male_standard", "language": "vi-VN", "style": "male-standard", "label": "Tieng Viet - Nam chuan", "gender": "male", "model": "vi-VN/vivos-x-low.onnx", "config": "vi-VN/vivos-x-low.onnx.json", "length_scale": 1.04},
+    {"id": "vi_female_natural", "language": "vi-VN", "style": "female-natural", "label": "Tieng Viet - Nu tu nhien", "gender": "female", "model": "vi-VN/vais1000-medium.onnx", "config": "vi-VN/vais1000-medium.onnx.json", "length_scale": 0.98},
+    {"id": "vi_female_warm", "language": "vi-VN", "style": "female-warm", "label": "Tieng Viet - Nu am", "gender": "female", "model": "vi-VN/25hours-single-low.onnx", "config": "vi-VN/25hours-single-low.onnx.json", "length_scale": 1.08},
+    {"id": "vi_female_bright", "language": "vi-VN", "style": "female-bright", "label": "Tieng Viet - Nu sang", "gender": "female", "model": "vi-VN/vais1000-medium.onnx", "config": "vi-VN/vais1000-medium.onnx.json", "length_scale": 0.92},
+
+    {"id": "en_male_deep", "language": "en-US", "style": "male-deep", "label": "English - Male deep", "gender": "male", "model": "en-US/male-deep.onnx", "config": "en-US/male-deep.onnx.json", "length_scale": 1.08},
+    {"id": "en_male_standard", "language": "en-US", "style": "male-standard", "label": "English - Male standard", "gender": "male", "model": "en-US/male-standard.onnx", "config": "en-US/male-standard.onnx.json", "length_scale": 1.0},
+    {"id": "en_female_natural", "language": "en-US", "style": "female-natural", "label": "English - Female natural", "gender": "female", "model": "en-US/female-natural.onnx", "config": "en-US/female-natural.onnx.json", "length_scale": 0.98},
+    {"id": "en_female_warm", "language": "en-US", "style": "female-warm", "label": "English - Female warm", "gender": "female", "model": "en-US/female-warm.onnx", "config": "en-US/female-warm.onnx.json", "length_scale": 1.05},
+    {"id": "en_female_bright", "language": "en-US", "style": "female-bright", "label": "English - Female bright", "gender": "female", "model": "en-US/female-bright.onnx", "config": "en-US/female-bright.onnx.json", "length_scale": 0.94},
+
+    {"id": "zh_male_deep", "language": "zh-CN", "style": "male-deep", "label": "Tieng Trung - Nam tram", "gender": "male", "model": "zh-CN/male-deep.onnx", "config": "zh-CN/male-deep.onnx.json", "length_scale": 1.08},
+    {"id": "zh_male_standard", "language": "zh-CN", "style": "male-standard", "label": "Tieng Trung - Nam chuan", "gender": "male", "model": "zh-CN/male-standard.onnx", "config": "zh-CN/male-standard.onnx.json", "length_scale": 1.0},
+    {"id": "zh_female_natural", "language": "zh-CN", "style": "female-natural", "label": "Tieng Trung - Nu tu nhien", "gender": "female", "model": "zh-CN/female-natural.onnx", "config": "zh-CN/female-natural.onnx.json", "length_scale": 0.98},
+    {"id": "zh_female_warm", "language": "zh-CN", "style": "female-warm", "label": "Tieng Trung - Nu am", "gender": "female", "model": "zh-CN/female-warm.onnx", "config": "zh-CN/female-warm.onnx.json", "length_scale": 1.05},
+    {"id": "zh_female_bright", "language": "zh-CN", "style": "female-bright", "label": "Tieng Trung - Nu sang", "gender": "female", "model": "zh-CN/female-bright.onnx", "config": "zh-CN/female-bright.onnx.json", "length_scale": 0.94},
+
+    {"id": "ja_male_deep", "language": "ja-JP", "style": "male-deep", "label": "Tieng Nhat - Nam tram", "gender": "male", "model": "ja-JP/male-deep.onnx", "config": "ja-JP/male-deep.onnx.json", "length_scale": 1.08},
+    {"id": "ja_male_standard", "language": "ja-JP", "style": "male-standard", "label": "Tieng Nhat - Nam chuan", "gender": "male", "model": "ja-JP/male-standard.onnx", "config": "ja-JP/male-standard.onnx.json", "length_scale": 1.0},
+    {"id": "ja_female_natural", "language": "ja-JP", "style": "female-natural", "label": "Tieng Nhat - Nu tu nhien", "gender": "female", "model": "ja-JP/female-natural.onnx", "config": "ja-JP/female-natural.onnx.json", "length_scale": 0.98},
+    {"id": "ja_female_warm", "language": "ja-JP", "style": "female-warm", "label": "Tieng Nhat - Nu am", "gender": "female", "model": "ja-JP/female-warm.onnx", "config": "ja-JP/female-warm.onnx.json", "length_scale": 1.05},
+    {"id": "ja_female_bright", "language": "ja-JP", "style": "female-bright", "label": "Tieng Nhat - Nu sang", "gender": "female", "model": "ja-JP/female-bright.onnx", "config": "ja-JP/female-bright.onnx.json", "length_scale": 0.94},
+
+    {"id": "ko_male_deep", "language": "ko-KR", "style": "male-deep", "label": "Tieng Han - Nam tram", "gender": "male", "model": "ko-KR/male-deep.onnx", "config": "ko-KR/male-deep.onnx.json", "length_scale": 1.08},
+    {"id": "ko_male_standard", "language": "ko-KR", "style": "male-standard", "label": "Tieng Han - Nam chuan", "gender": "male", "model": "ko-KR/male-standard.onnx", "config": "ko-KR/male-standard.onnx.json", "length_scale": 1.0},
+    {"id": "ko_female_natural", "language": "ko-KR", "style": "female-natural", "label": "Tieng Han - Nu tu nhien", "gender": "female", "model": "ko-KR/female-natural.onnx", "config": "ko-KR/female-natural.onnx.json", "length_scale": 0.98},
+    {"id": "ko_female_warm", "language": "ko-KR", "style": "female-warm", "label": "Tieng Han - Nu am", "gender": "female", "model": "ko-KR/female-warm.onnx", "config": "ko-KR/female-warm.onnx.json", "length_scale": 1.05},
+    {"id": "ko_female_bright", "language": "ko-KR", "style": "female-bright", "label": "Tieng Han - Nu sang", "gender": "female", "model": "ko-KR/female-bright.onnx", "config": "ko-KR/female-bright.onnx.json", "length_scale": 0.94}
+  ]
+}
